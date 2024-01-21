@@ -33,8 +33,11 @@ def get_data():
 
     return json_data
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/master
 def get_new_data():
     get_date_now = datetime.now()
     zone = timezone("Asia/Vladivostok")
@@ -42,5 +45,9 @@ def get_new_data():
     json_data = []
     for item in get_data():
         if item.date.date() == dt.date():
+<<<<<<< HEAD
             json_data.append(item)
+=======
+            json_data.append(item.model_dump())
+>>>>>>> origin/master
     return json_data

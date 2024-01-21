@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import sys
+>>>>>>> origin/master
 from fastapi import APIRouter
 from app.zakupki.zakupki_parser import get_new_data
 
