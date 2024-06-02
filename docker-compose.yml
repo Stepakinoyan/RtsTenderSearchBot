@@ -1,20 +1,10 @@
 version: '3'
 
 services:
-    nginx:
-        build:
-          context: .
-          dockerfile: Dockerfile.nginx
-        container_name: rts-tender-nginx
-        ports:
-          - 443:443
-        links: 
-            - search-api
-            - bot
 
     search-api:
         build: .
-        command: ["gunicorn", "app.main:app", "--workers", "1", "--worker-class", "uvicorn.workers.UvicornH11Worker", "--bind=0.0.0.0:8000"]
+        command: sh -c "fastapi run app/main.py"
         ports:
             - "9000:8000" 
     bot:
@@ -23,3 +13,5 @@ services:
         - .env
       restart: always
       command: sh -c "python app/bot/bot.py"
+      depends_on:
+          - search-api

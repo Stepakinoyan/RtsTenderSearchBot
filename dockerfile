@@ -1,15 +1,13 @@
 FROM python:3.11
 
+RUN mkdir code
 
-WORKDIR /app
+WORKDIR /code
 
+COPY /pyproject.toml /code
 
-COPY requirements.txt .
-
-
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
-
+RUN pip install poetry
+RUN poetry config virtualenvs.create false
+RUN poetry install
 
 COPY . .
-
-CMD ["gunicorn", "app.main:app", "--workers", "1", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind=0.0.0.0:8000"]

@@ -4,7 +4,7 @@ from fake_useragent import UserAgent
 from datetime import datetime
 from pytz import timezone
 from httpx import AsyncClient
-from app.zakupki.schemas import Zakupki
+from zakupki.schemas import Zakupki
 
 
 headers = {"user-agent": UserAgent().random}
