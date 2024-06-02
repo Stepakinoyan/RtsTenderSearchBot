@@ -1,9 +1,20 @@
 version: '3'
 
 services:
+    nginx:
+        build:
+          context: .
+          dockerfile: Dockerfile.nginx
+        container_name: rts-tender-nginx
+        ports:
+          - 443:443
+        links: 
+            - search-api
+            - bot
+
     search-api:
         build: .
-        command: ["gunicorn", "app.main:app", "--workers", "1", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind=0.0.0.0:8000"]
+        command: ["gunicorn", "app.main:app", "--workers", "1", "--worker-class", "uvicorn.workers.UvicornH11Worker", "--bind=0.0.0.0:8000"]
         ports:
             - "9000:8000" 
     bot:
