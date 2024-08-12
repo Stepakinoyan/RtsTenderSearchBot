@@ -1,7 +1,7 @@
 import datetime
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
-from datetime import datetime
+from datetime import datetime, timedelta
 from pytz import timezone
 from httpx import AsyncClient
 from zakupki.schemas import Zakupki
@@ -28,7 +28,7 @@ async def get_data():
             [i.text for i in card.find_all("div", class_="registry-entry__body-value")]
         )
         date = datetime.strptime(
-            soup.find("div", class_="data-block__value").text, "%d.%m.%Y"
+            card.find("div", class_="data-block__value").text, "%d.%m.%Y"
         ).date()
 
         json_data.append(
@@ -37,13 +37,13 @@ async def get_data():
 
     return json_data
 
-
 async def get_new_data():
     get_date_now = datetime.now()
     zone = timezone("Asia/Yakutsk")
     dt = zone.localize(get_date_now)
+    yesterday = dt - timedelta(days=1)
     json_data = []
     for item in await get_data():
-        if item.post_date == dt.date():
+        if item.post_date == yesterday.date():
             json_data.append(item.model_dump())
     return json_data

@@ -8,7 +8,7 @@ from funcs import get_data_from_api
 from config import settings
 
 logging.basicConfig(level=logging.INFO)
-trigger = CronTrigger(year="*", month="*", day="*", hour="18", minute="0", second="0")
+trigger = CronTrigger(year="*", month="*", day="*", hour="8", minute="0", second="0")
 bot = Bot(settings.TOKEN)
 dp = Dispatcher()
 
@@ -23,9 +23,6 @@ class SchedulerMiddleware(BaseMiddleware):
         return await handler(event, data)
 
 
-
-
-
 @dp.message(CommandStart())
 async def hello(message: types.Message):
     await bot.send_message(
@@ -34,9 +31,7 @@ async def hello(message: types.Message):
 
 
 @dp.message(Command("remind"))
-async def get_data_handler(
-    scheduler: AsyncIOScheduler
-):
+async def get_data_handler(message: types.Message, scheduler: AsyncIOScheduler):
     await bot.send_message(
         chat_id="@rtstendermonitoring",
         text="Бот будет следить за изменениями каждый день в 18:00 вечера",
